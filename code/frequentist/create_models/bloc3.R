@@ -32,6 +32,7 @@ for (i in potgrowth::qc_parties){
     data = data
   )
   saveRDS(model, paste0("local_lecture_dirigee/data/models/frequentist/bloc3_", i, ".rds"))
+  saveRDS(model, paste0("code/frequentist/present_models/models/bloc3_", i, ".rds"))
   message(i)
 }
 
