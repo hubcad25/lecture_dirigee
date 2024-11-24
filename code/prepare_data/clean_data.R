@@ -45,4 +45,32 @@ df_to_csv_codebook <- data.frame(
 
 write.csv(df_to_csv_codebook, "local_lecture_dirigee/data/codebook.csv", row.names = FALSE)
 
+# Change factor levels ---------------------------------------------------
+
+## age_cat
+levels(df$bloc1_age_cat)
+table(df$bloc1_age_cat)
+df$bloc1_age_cat <- relevel(df$bloc1_age_cat, ref = "age60m74")
+levels(df$bloc1_age_cat)
+
+
+## bloc1_educ
+levels(df$bloc1_educ)
+table(df$bloc1_educ)
+df$bloc1_educ <- relevel(df$bloc1_educ, ref = "educUniv")
+levels(df$bloc1_educ)
+
+## bloc1_income
+levels(df$bloc1_income)
+table(df$bloc1_income)
+df$bloc1_income <- relevel(df$bloc1_income, ref = "incomeMid")
+levels(df$bloc1_income)
+
+
+## lang
+levels(df$bloc1_lang)
+table(df$bloc1_lang)
+df$bloc1_lang <- relevel(df$bloc1_lang, ref = "french")
+levels(df$bloc1_lang)
+
 saveRDS(df, "local_lecture_dirigee/data/full_survey_data.rds")
