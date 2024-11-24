@@ -1,0 +1,21 @@
+---
+title: "Modèles fréquentistes"
+format:
+  html:
+    toc: true
+    theme:
+      - cosmo
+    code-block-background: "#f0f0f0"
+    code-background: "#fff"
+    code-link-color: "#555"
+    code-font-size: 14pt
+editor: visual
+---
+
+```{r}
+#| eval: true
+#| echo: true
+
+model_files <- list.files(path = "models")
+print(model_files)
+```

@@ -1,3 +1,4 @@
+*.rds
 local*
 
 ## Core latex/pdflatex auxiliary files:

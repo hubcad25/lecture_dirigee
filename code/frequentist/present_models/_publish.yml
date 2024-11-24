@@ -1,0 +1,6 @@
+- source: present_models.qmd
+  quarto-pub:
+    - id: dbf7baa7-59d7-4fa2-b49c-8e85329978da
+      url: 'https://hubcad25.quarto.pub/lecture_dirigeemodeles_frequentistes'
+    - id: 9810d99d-f32f-4aa0-a1c2-50f9af5fa9ff
+      url: 'https://hubcad25.quarto.pub/lecture_dirigee_modeles_frequentistes'
