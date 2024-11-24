@@ -13,14 +13,13 @@ sondr::glimpse_with_table(data)
 for (i in potgrowth::qc_parties){
   data$vd <- data[[paste0("vd_", i)]]
   model <- potgrowth::lm_with_residuals(
-    vd ~ bloc1_age + bloc1_lang +
+    vd ~ bloc1_age_cat + bloc1_lang +
       bloc1_male + bloc1_income +
       bloc1_educ + bloc1_religion +
       bloc1_political_knowledge + bloc2_party_id,
     data = data
   )
   saveRDS(model, paste0("local_lecture_dirigee/data/models/frequentist/bloc2_", i, ".rds"))
-  saveRDS(model, paste0("code/frequentist/present_models/models/bloc2_", i, ".rds"))
   message(i)
 }
 
