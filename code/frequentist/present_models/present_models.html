@@ -20,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -74,10 +40,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <body>
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-  
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#présentation-des-données" id="toc-présentation-des-données" class="nav-link active" data-scroll-target="#présentation-des-données"><span class="header-section-number">1</span> Présentation des données</a>
+  <ul class="collapse">
+  <li><a href="#distribution-des-vd" id="toc-distribution-des-vd" class="nav-link" data-scroll-target="#distribution-des-vd"><span class="header-section-number">1.1</span> Distribution des VD</a></li>
+  <li><a href="#diagnostic-des-résidus" id="toc-diagnostic-des-résidus" class="nav-link" data-scroll-target="#diagnostic-des-résidus"><span class="header-section-number">1.2</span> Diagnostic des résidus</a></li>
+  </ul></li>
+  <li><a href="#tableaux-de-régressions" id="toc-tableaux-de-régressions" class="nav-link" data-scroll-target="#tableaux-de-régressions"><span class="header-section-number">2</span> Tableaux de régressions</a></li>
+  </ul>
+</nav>
 </div>
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -98,16 +75,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<section id="présentation-des-données" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Présentation des données</h1>
+<section id="distribution-des-vd" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="distribution-des-vd"><span class="header-section-number">1.1</span> Distribution des VD</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>model_files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">path =</span> <span class="st">"models"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(model_files)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] "bloc1_CAQ.rds" "bloc1_PCQ.rds" "bloc1_PLQ.rds" "bloc1_PQ.rds" 
- [5] "bloc1_QS.rds"  "bloc2_CAQ.rds" "bloc2_PCQ.rds" "bloc2_PLQ.rds"
- [9] "bloc2_PQ.rds"  "bloc2_QS.rds"  "bloc3_CAQ.rds" "bloc3_PCQ.rds"
-[13] "bloc3_PLQ.rds" "bloc3_PQ.rds"  "bloc3_QS.rds" </code></pre>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="present_models_files/figure-html/irc_distribution-1.png" class="img-fluid figure-img" style="width:90.0%"></p>
+</figure>
 </div>
 </div>
+</div>
+<p>Même si la distribution des VD est non-normale, j’ai lu qu’on pouvait quand même appliquer une régression linéaire classique si le postulat de la normalité des résidus est respecté.</p>
+</section>
+<section id="diagnostic-des-résidus" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="diagnostic-des-résidus"><span class="header-section-number">1.2</span> Diagnostic des résidus</h2>
+<p>Le postulat de normalité des résidus n’est pas respecté peu importe le parti ou le bloc. Exemple avec le modèle bloc 1 du PQ (c’est semblable à ça peu importe le parti ou le bloc):</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="present_models_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="tableaux-de-régressions" class="level1 page-columns page-full" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Tableaux de régressions</h1>
+<div class="cell page-columns page-full">
+<div class="cell-output-display page-columns page-full">
+<div class="page-columns page-full">
+<figure class="figure page-columns page-full">
+<p class="page-columns page-full"><img src="present_models_files/figure-html/model_plot-1.png" style="width:100.0%;height:100.0%" class="figure-img column-screen"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
 
 </main>
 <!-- /main column -->

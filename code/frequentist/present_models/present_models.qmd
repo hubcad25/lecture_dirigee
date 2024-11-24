@@ -9,13 +9,160 @@ format:
     code-background: "#fff"
     code-link-color: "#555"
     code-font-size: 14pt
+    fig-dpi: 300
+    number-sections: true
 editor: visual
+knitr:
+  opts_chunk: 
+    out.width: "90%"
+  opts_knit:
+    root.dir: "/home/hubcad25/Dropbox/Automne2024/lecture_dirigee"
 ---
 
 ```{r}
-#| eval: true
-#| echo: true
+#| label: setting
+#| echo: false
+#| message: false
+#| warning: false
 
-model_files <- list.files(path = "models")
-print(model_files)
+# Packages ---------------------------------------------------------------
+library(dplyr)
+library(ggplot2)
+library(ggfortify)
+library(modelsummary)
+```
+
+# Présentation des données
+
+## Distribution des VD
+
+```{r}
+#| echo: false
+#| label: irc_distribution
+#| warning: false
+
+# Data -------------------------------------------------------------------
+data <- readRDS("local_lecture_dirigee/data/full_survey_data.rds")
+
+data |> 
+  tidyr::pivot_longer(
+    cols = starts_with("vd"),
+    names_prefix = "vd_",
+    names_to = "party",
+    values_to = "irc"
+  ) |> 
+  ggplot(
+    aes(x = irc, fill = party)
+  ) +
+    geom_bar(show.legend = FALSE) +
+    geom_vline(xintercept = 0, linetype = "dotted") +
+    facet_wrap(~party) +
+    clessnize::theme_clean_light() +
+    scale_fill_manual(
+      values = potgrowth::qc_party_colors
+    )
+```
+
+Même si la distribution des VD est non-normale, j'ai lu qu'on pouvait quand même appliquer une régression linéaire classique si le postulat de la normalité des résidus est respecté.
+
+## Diagnostic des résidus
+
+Le postulat de normalité des résidus n'est pas respecté peu importe le parti ou le bloc. Exemple avec le modèle bloc 1 du PQ (c'est semblable à ça peu importe le parti ou le bloc):
+
+```{r}
+#| eval: true
+#| echo: false
+
+model <- readRDS("local_lecture_dirigee/data/models/frequentist/bloc1_PQ.rds")
+autoplot(model, label.size = 2, size = 0.4, alpha = 0.5) +
+  clessnize::theme_clean_light()
+```
+
+
+# Tableaux de régressions
+
+```{r}
+#| eval: true
+#| echo: false
+#| warning: false
+#| message: false
+#| label: prepare_model_plot
+
+## Load models
+models_files <- list.files(
+  path = "local_lecture_dirigee/data/models/frequentist",
+  full.names = TRUE
+  )
+models_list <- lapply(models_files, readRDS)
+
+## Name each model
+models_names <- gsub(".rds", "", basename(models_files))
+names(models_list) <- models_names
+
+## Load meta data on each model
+df_models_meta <- readxl::read_xlsx(
+  "local_lecture_dirigee/data/codebook_modelplot.xlsx",
+  sheet = "models"
+)
+
+## Load coefficients meta data
+df_coefs_meta <- readxl::read_xlsx(
+  "local_lecture_dirigee/data/codebook_modelplot.xlsx",
+  sheet = "coefficients"
+)
+
+## Join it all together
+df_models <- modelsummary::modelplot(models_list, draw = FALSE) %>%
+  left_join(., df_models_meta, by = "model") %>% 
+  mutate(term = as.character(term)) %>%
+  left_join(., df_coefs_meta, by = "term") %>% 
+  tidyr::drop_na() |> 
+  mutate(model_bloc = factor(model_bloc, levels = rev(c("Bloc 1", "Bloc 2", "Bloc 3")), ordered = TRUE))
+```
+
+```{r}
+#| eval: true
+#| echo: false
+#| label: model_plot
+#| warning: false
+#| message: false
+#| column: screen
+#| out-width: 100%
+#| out-height: 100%
+
+ggplot(
+  df_models,
+  aes(x = estimate, y = coef_label)
+  ) +
+ geom_vline(
+  xintercept = 0, linetype = "dotted", linewidth = 0.2, color = "grey"
+ ) +
+ lemon::facet_rep_grid(
+   repeat.tick.labels = "y",
+   rows = vars(coef_bloc),
+   cols = vars(party),
+   scales = "free_y"
+ ) +
+ geom_linerange(
+   aes(xmin = conf.low, xmax = conf.high, color = party, group = model_bloc),
+   linewidth = 0.15,
+   position = position_dodge2(width = 0.8)
+ ) +
+ geom_point(
+   size = 0.5,
+   aes(color = party, shape = model_bloc, group = model_bloc),
+   position = position_dodge2(width = 0.8)
+ ) +
+  scale_color_manual(values = potgrowth::qc_party_colors) +
+  clessnize::theme_clean_light(base_size = 2.75) +
+  guides(color = "none") +
+  xlab("Coefficient avec intervalle 95%") +
+  theme(
+    legend.position = "right",
+    panel.grid.major.y = element_blank(),
+    panel.background = element_rect(fill = NA, color = "grey70", linewidth = 0.25),
+    strip.text.x = element_text(size = 6),
+    legend.text = element_text(size = 6)
+  )
+
 ```
