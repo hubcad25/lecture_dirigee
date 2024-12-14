@@ -4,20 +4,37 @@ library(ggplot2)
 library(randomForest)
 
 # Data -------------------------------------------------------------------
-data <- readRDS("local_lecture_dirigee/data/full_survey_data.rds") |> 
-  select(starts_with(c("vd", "bloc1")))
+data_list <- readRDS("local_lecture_dirigee/data/training_testing_data.rds")
 
-sondr::glimpse_with_table(data)
+# Loop to train models --------------------------------------------------------------
 
-# Functions --------------------------------------------------------------
+blocks <- 1
 
-for (i in potgrowth::qc_parties){
-  data$vd <- data[[paste0("vd_", i)]]
-  model <- potgrowth::lm_with_residuals(
-    vd ~ bloc1_age_cat + bloc1_lang + bloc1_male + bloc1_income +
-       bloc1_educ + bloc1_religion + bloc1_political_knowledge,
-    data = data
-  )
-  saveRDS(model, paste0("local_lecture_dirigee/data/models/frequentist/bloc1_", i, ".rds"))
+for (i in 1:length(data_list)){
+  list <- data_list[[i]]
   message(i)
+  for (j in potgrowth::qc_parties){
+    df_train <- list$train
+    df_test <- list$test
+    df_train$vd <- df_train[[paste0("vd_", j)]]
+    df_train <- df_train |>
+      select(vd, starts_with(paste0("bloc", blocks)))
+    df_test$vd <- df_test[[paste0("vd_", j)]]
+    df_test <- df_test |>
+      select(vd, starts_with(paste0("bloc", blocks)))
+    model <- tuneRF(
+      x = df_train[ , -which(names(df_train) == "vd")],
+      y = df_train$vd,
+      ntreeTry = 1000, # Nombre d'arbres à essayer
+      mtryStart = 2,
+      stepFactor = 1.5, # Facteur d'ajustement des mtry
+      improve = 0.01, # Seuil d'amélioration minimal
+      trace = FALSE, # Affiche les résultats à chaque étape
+      plot = FALSE, # Génère un graphique des performances
+      doBest = TRUE # Retourne le modèle
+    )
+    model$df_test <- df_test
+    saveRDS(model, paste0("local_lecture_dirigee/data/models/randomforest_bloc", max(blocks), "_", j, "_iter", i, ".rds"))
+    message("    ", j)
+  }
 }

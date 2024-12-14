@@ -1,0 +1,192 @@
+---
+title: "Présentation de différents diagnostiques des modèles"
+format:
+  html:
+    toc: true
+    theme:
+      - cosmo
+    code-block-background: "#f0f0f0"
+    code-background: "#fff"
+    code-link-color: "#555"
+    code-font-size: 14pt
+    fig-dpi: 300
+    number-sections: true
+editor: visual
+knitr:
+  opts_chunk: 
+    out.width: "90%"
+  opts_knit:
+    root.dir: "/home/hubcad25/Dropbox/Automne2024/lecture_dirigee"
+---
+
+```{r}
+#| label: setting
+#| echo: false
+#| message: false
+#| warning: false
+
+# Packages ---------------------------------------------------------------
+library(dplyr)
+library(ggplot2)
+```
+
+# Présentation des données
+
+## Distribution des VD
+
+```{r}
+#| echo: false
+#| label: irc_distribution
+#| warning: false
+
+# Data -------------------------------------------------------------------
+data <- readRDS("local_lecture_dirigee/data/full_survey_data.rds")
+
+data |> 
+  tidyr::pivot_longer(
+    cols = starts_with("vd"),
+    names_prefix = "vd_",
+    names_to = "party",
+    values_to = "irc"
+  ) |> 
+  ggplot(
+    aes(x = irc, fill = party)
+  ) +
+    geom_bar(show.legend = FALSE) +
+    geom_vline(xintercept = 0, linetype = "dotted") +
+    facet_wrap(~party) +
+    clessnize::theme_clean_light() +
+    scale_fill_manual(
+      values = potgrowth::qc_party_colors
+    )
+```
+
+
+# Métho
+
+- **Ensembles de données**  
+  - 15 ensembles training-testing (85%/15%, ~800 répondants par ensemble training).  
+
+- **Modèles**  
+  - 5 partis X 3 blocs X 4 approches X 15 ensembles de données
+
+- **Random Forest**  
+  - Optimisation des hyperparamètres avec `tuneRF` (package **randomForest**).  
+  - Approche simple, sans complexité superflue.  
+
+# Diagnostiques
+
+## Précision prédictive
+
+J'ai utilisé la MSE (mean squared error)
+
+```{r}
+#| eval: true
+#| echo: false
+#| warning: false
+#| message: false
+#| label: load_mse_data
+df_mse <- readRDS("local_lecture_dirigee/data/diagnoses/mse.rds")
+
+ggplot(df_mse, aes(x = mse)) +
+  geom_density(fill = "#ff8ace", color = NA) +
+  clessnize::theme_clean_light()
+```
+
+
+```{r}
+#| eval: true
+#| echo: false
+#| warning: false
+#| message: false
+#| label: mse_comparative_density_by_approche
+
+ggplot(df_mse, aes(x = mse)) +
+  geom_density(
+    aes(
+      group = approche,
+      fill = approche
+      ),
+      color = NA,
+      alpha = 0.4
+      ) +
+  clessnize::theme_clean_light()
+```
+
+```{r}
+#| eval: true
+#| echo: false
+#| warning: false
+#| message: false
+#| label: mse_comparative_density_by_bloc
+
+df_mse |> 
+  mutate(bloc = paste0("bloc", bloc)) |>
+  ggplot(aes(x = mse)) +
+  geom_density(
+    aes(
+      group = approche,
+      fill = approche
+      ),
+      color = NA,
+      alpha = 0.4
+      ) +
+  clessnize::theme_clean_light() +
+  facet_wrap(~bloc) +
+  theme(
+    panel.background = element_rect(fill = NA, color = "grey70")
+  )
+```
+
+```{r}
+#| eval: true
+#| echo: false
+#| warning: false
+#| message: false
+#| label: mse_comparative_density_by_party
+
+ggplot(df_mse, aes(x = mse)) +
+  geom_density(
+    aes(
+      group = approche,
+      fill = approche
+      ),
+      color = NA,
+      alpha = 0.4
+      ) +
+  clessnize::theme_clean_light() +
+  facet_wrap(~party) +
+  theme(
+    panel.background = element_rect(fill = NA, color = "grey70")
+  )
+```
+
+
+```{r}
+#| eval: true
+#| echo: false
+#| warning: false
+#| message: false
+#| label: mse_comparative_density_by_bloc_party
+
+df_mse |> 
+  mutate(bloc = paste0("bloc", bloc)) |>
+  ggplot(aes(x = mse, y = forcats::fct_rev(bloc))) +
+  ggridges::geom_density_ridges(
+    aes(
+      fill = approche
+      ),
+      color = "white",
+      alpha = 0.4,
+      scale = 1
+  ) +
+  clessnize::theme_clean_light() +
+  facet_wrap(
+    ~party
+  ) +
+  ylab("density") +
+  theme(
+    panel.background = element_rect(fill = NA, color = "grey70")
+  )
+
+```

@@ -1,0 +1,4 @@
+- source: present_diagnoses.qmd
+  quarto-pub:
+    - id: d66905ba-0aea-409f-bba9-99ebec4b4de7
+      url: 'https://hubcad25.quarto.pub/present_diagnoses'
