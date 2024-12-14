@@ -73,7 +73,7 @@ Le postulat de normalité des résidus n'est pas respecté peu importe le parti 
 #| eval: true
 #| echo: false
 
-model <- readRDS("local_lecture_dirigee/data/models/frequentist/bloc1_PQ.rds")
+model <- readRDS("local_lecture_dirigee/data/archives/models/frequentist/bloc1_PQ.rds")
 autoplot(model, label.size = 2, size = 0.4, alpha = 0.5) +
   clessnize::theme_clean_light()
 ```
@@ -90,7 +90,7 @@ autoplot(model, label.size = 2, size = 0.4, alpha = 0.5) +
 
 ## Load models
 models_files <- list.files(
-  path = "local_lecture_dirigee/data/models/frequentist",
+  path = "local_lecture_dirigee/data/archives/models/frequentist",
   full.names = TRUE
   )
 models_list <- lapply(models_files, readRDS)
@@ -141,7 +141,7 @@ ggplot(
    repeat.tick.labels = "y",
    rows = vars(coef_bloc),
    cols = vars(party),
-   scales = "free_y"
+   scales = "free"
  ) +
  geom_linerange(
    aes(xmin = conf.low, xmax = conf.high, color = party, group = model_bloc),

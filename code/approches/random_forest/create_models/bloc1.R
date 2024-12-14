@@ -1,6 +1,7 @@
 # Packages ---------------------------------------------------------------
 library(dplyr)
 library(ggplot2)
+library(randomForest)
 
 # Data -------------------------------------------------------------------
 data <- readRDS("local_lecture_dirigee/data/full_survey_data.rds") |> 
