@@ -34,11 +34,11 @@ df_priors <- read_sheet("https://docs.google.com/spreadsheets/d/13wJZivc7lpYPaMX
     variable = gsub(": \\[\\w+\\]", "", variable),
     variable = clean_issue_names_to_variables[variable],
     prior = case_when(
-      prior == "Très négatif" ~ -0.5,
-      prior == "Négatif"      ~ -0.25,
+      prior == "Très négatif" ~ -1,
+      prior == "Négatif"      ~ -0.5,
       prior == "Aucun effet"  ~ 0,
-      prior == "Positif"      ~ 0.25,
-      prior == "Très positif" ~ 0.5
+      prior == "Positif"      ~ 0.5,
+      prior == "Très positif" ~ 1
     )
   ) |> 
   group_by(variable, party) |>

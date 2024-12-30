@@ -1,0 +1,256 @@
+---
+title: "Fiches synthèses des articles"
+format:
+  html:
+    toc: true
+    theme:
+      - cosmo
+    code-block-background: "#f0f0f0"
+    code-background: "#fff"
+    code-link-color: "#555"
+    code-font-size: 14pt
+    fig-dpi: 300
+    number-sections: true
+editor: visual
+knitr:
+  opts_chunk: 
+    out.width: "90%"
+  opts_knit:
+    root.dir: "/home/hubcad25/Dropbox/Automne2024/lecture_dirigee"
+---
+
+# Montalvo et al. (2019) - Bayesian forecasting of electoral outcomes with new parties’ competition
+
+## Résumé de l'article
+
+L'article introduit une méthodologie bayésienne hybride pour prédire les résultats électoraux dans des systèmes multipartites avec l'émergence de nouveaux partis. En combinant un modèle fondamental basé sur des données sociodémographiques locales et un modèle d'agrégation de sondages nationaux, il offre des prévisions précises des sièges parlementaires. L'approche est appliquée à l'élection espagnole de 2015, marquée par l'émergence de deux nouveaux partis représentant 30 % des sièges. Les prédictions surpassent les modèles concurrents en termes de précision, notamment pour allouer les sièges au niveau local.
+
+## Forces et faiblesses des approches
+
+### Forces
+- Utilisation de modèles multiniveaux bayésiens pour intégrer les données locales et nationales.
+- Gestion robuste des incertitudes liées aux sondages et à la faible représentativité des échantillons locaux.
+- Flexibilité pour intégrer de nouveaux partis et des contextes électoraux changeants.
+
+### Faiblesses
+- Nécessité de données locales détaillées, ce qui peut limiter l'application dans des contextes avec peu de données fiables.
+- Complexité computationnelle élevée due à l'utilisation de méthodes bayésiennes, nécessitant des outils spécialisés comme Stan.
+
+## Cas d'application pertinent
+
+Méthodologie adaptée aux élections multipartites où de nouveaux partis émergent, comme le cas de l'Espagne en 2015. Idéale pour prévoir les sièges parlementaires dans des contextes où les données locales et les sondages nationaux doivent être combinés.
+
+## Lien avec une variable continue qui ne suit pas une loi normale
+
+Les modèles multiniveaux bayésiens décrits sont particulièrement adaptés pour traiter des distributions non normales, comme l'IRC. En exploitant des approches probabilistes à plusieurs niveaux, ils permettent de capturer les variations locales et les corrélations complexes entre facteurs sociodémographiques et résultats électoraux, tout en intégrant des incertitudes significatives.
+
+
+# Asfaw Dagne & Press (1997) - Bayesian prediction for small areas using SUR models
+
+## Résumé de l'article
+
+Cet article propose une méthode bayésienne hiérarchique pour prédire les paramètres pour de petites zones à l'aide de modèles de régressions apparemment indépendantes (SUR). L'approche vise à surmonter les limitations des échantillons de petite taille dans les zones spécifiques en empruntant de la force aux relations entre variables dans d'autres zones. À travers des simulations de Monte Carlo, la méthode est testée pour des estimations multivariées et démontre des performances supérieures aux approches bayésiennes empiriques et aux méthodes fréquentistes classiques.
+
+## Forces et faiblesses des approches
+
+### Forces
+- **Flexibilité multivariée :** Le modèle SUR permet de prendre en compte les corrélations entre variables dépendantes.
+- **Approche bayésienne robuste :** Les incertitudes liées aux prédictions sont directement intégrées grâce à la distribution postérieure.
+- **Performances supérieures :** L'approche hiérarchique bayésienne réduit les biais et améliore la précision des prédictions par rapport aux méthodes fréquentistes et bayésiennes empiriques.
+
+### Faiblesses
+- **Complexité computationnelle :** L'utilisation du Gibbs sampler pour estimer les distributions prédictives nécessite un temps de calcul important.
+- **Dépendance aux hypothèses de prior :** Bien que des priors non informatifs soient utilisés, ils peuvent influencer les résultats si les données sont insuffisantes.
+
+## Cas d'application pertinent
+
+La méthode est adaptée pour des contextes où les données sont échantillonnées de manière inégale dans des zones géographiques (ex : prédictions agricoles, études régionales sur les revenus). Elle est particulièrement utile lorsqu'une variable d'intérêt est mesurée en parallèle avec plusieurs variables auxiliaires corrélées.
+
+## Lien avec une variable continue qui ne suit pas une loi normale
+
+Le modèle bayésien SUR est conçu pour gérer des relations complexes entre variables et des distributions non normales. Pour une variable comme l'IRC, qui présente une asymétrie et des incertitudes, cette méthode peut exploiter les corrélations structurelles entre les variables explicatives tout en fournissant des prédictions robustes grâce aux densités prédictives bayésiennes.
+
+
+# Bafumi et al. (2005) - Bayesian Ideal Point Estimation in Political Science
+
+## Résumé de l'article
+
+Cet article explore l'estimation des "ideal points" des législateurs et juges à travers une méthode bayésienne hiérarchique, adaptée d'approches en psychométrie. Il résout plusieurs problèmes techniques liés aux modèles existants (comme le non-identifiabilité, les invariances et les valeurs aberrantes) et applique ces techniques pour modéliser les votes de la Cour Suprême des États-Unis entre 1954 et 2000. L'article introduit également des outils pour évaluer la qualité des modèles, tels que des vérifications de l'ajustement et des visualisations innovantes.
+
+## Forces et faiblesses des approches
+
+### Forces
+- **Robustesse bayésienne :** Intégration explicite des incertitudes grâce à des modèles hiérarchiques.
+- **Gestion des valeurs aberrantes :** Utilisation d'un modèle logistique robuste pour limiter l'impact des outliers.
+- **Visualisation :** Introduction de graphiques innovants pour interpréter les "ideal points" et évaluer la convergence des chaînes MCMC.
+
+### Faiblesses
+- **Complexité computationnelle :** Modèles exigeants en termes de calculs, nécessitant des logiciels spécifiques comme WinBUGS.
+- **Hypersensibilité aux priors :** Les résultats peuvent varier significativement en fonction des hypothèses initiales, bien que l'article propose des méthodes pour en réduire l'impact.
+
+## Cas d'application pertinent
+
+Méthodologie adaptée pour analyser les comportements de vote, notamment dans des contextes de données ordinales ou catégoriques, comme les votes au Congrès ou en Cour Suprême. Elle peut également être utilisée pour explorer des idéologies multidimensionnelles.
+
+## Lien avec une variable continue qui ne suit pas une loi normale
+
+Les modèles bayésiens hiérarchiques décrits dans cet article sont particulièrement adaptés pour gérer des distributions complexes ou asymétriques, comme celles de l'IRC. Ces méthodes permettent de capturer les relations latentes entre les variables tout en produisant des estimations robustes dans des contextes d'incertitudes élevées, ce qui en fait un candidat pertinent pour la modélisation de l'IRC.
+
+
+# Bailey (2007) - Comparable Preference Estimates across Time and Institutions
+
+## Résumé de l'article
+
+Cet article présente une méthode basée sur des modèles spatiaux bayésiens pour comparer les préférences politiques entre institutions (Cour suprême, Congrès, présidence) et à travers le temps. L'approche utilise des "observations de pont" (bridge observations) pour relier des positions prises sur des votes ou des affaires judiciaires et des informations sur les points de coupure des votes (cutpoints). Cela permet de produire des estimations comparables des préférences politiques, essentielles pour des études telles que l'influence du président sur la Cour ou l'évolution des préférences législatives.
+
+## Forces et faiblesses des approches
+
+### Forces
+- **Comparabilité interinstitutionnelle :** Les "bridge observations" permettent de relier des préférences entre des institutions distinctes comme le Congrès et la Cour suprême.
+- **Précision temporelle :** Intégration des changements de préférences dans le temps grâce aux modèles bayésiens.
+- **Robustesse méthodologique :** Utilisation d'approches bayésiennes MCMC pour produire des estimations précises et comparables.
+
+### Faiblesses
+- **Dépendance aux données disponibles :** La méthode nécessite une large base de données sur les votes et affaires pour générer des ponts fiables.
+- **Complexité computationnelle :** Les modèles bayésiens MCMC sont coûteux en ressources informatiques et exigent des temps de calcul élevés.
+
+## Cas d'application pertinent
+
+L'approche est particulièrement utile pour des études où les préférences des décideurs politiques doivent être comparées à travers différents contextes institutionnels et temporels. Par exemple, elle peut être appliquée à l'analyse des votes sur des lois ou à l'examen des interactions entre le Congrès et la Cour suprême.
+
+## Lien avec une variable continue qui ne suit pas une loi normale
+
+Les modèles bayésiens présentés ici sont bien adaptés pour modéliser des variables continues asymétriques comme l'IRC. En s'appuyant sur des distributions a priori flexibles et en intégrant les incertitudes des prédictions, ils offrent une alternative robuste aux méthodes fréquentistes traditionnelles pour analyser des données non normales.
+
+# Bailey (2007) - Bridging Institutions and Time: Creating Comparable Preference Estimates for Presidents, Senators, and Justices
+
+## Résumé de l'article
+
+L'article développe une méthodologie pour estimer les préférences politiques comparables à travers le temps et entre institutions (présidence, Sénat, Cour suprême). En utilisant des "observations de pont" pour relier les décisions des différents acteurs politiques, Bailey crée un cadre permettant d'analyser les relations entre branches du gouvernement, notamment l'influence des préférences politiques sur les décisions institutionnelles. L'approche utilise des modèles spatiaux bayésiens pour produire des estimations robustes et comparables dans un contexte institutionnel et temporel.
+
+## Forces et faiblesses des approches
+
+### Forces
+- **Comparabilité accrue :** La méthode permet de comparer les préférences des présidents, sénateurs et juges malgré des contextes institutionnels variés.
+- **Robustesse bayésienne :** Intégration explicite des incertitudes via des modèles bayésiens MCMC, offrant des estimations plus précises.
+- **Analyses historiques riches :** L'approche permet une analyse dynamique des changements de préférences politiques sur plusieurs décennies.
+
+### Faiblesses
+- **Dépendance aux données :** Requiert des données détaillées et cohérentes sur les votes et décisions à travers le temps pour construire les "observations de pont".
+- **Complexité méthodologique :** La mise en œuvre des modèles bayésiens nécessite une expertise technique importante.
+
+## Cas d'application pertinent
+
+La méthodologie est idéale pour des contextes nécessitant des comparaisons interinstitutionnelles et temporelles des préférences politiques, par exemple pour examiner l'influence du Sénat sur les nominations judiciaires ou pour analyser l'évolution idéologique des juges de la Cour suprême.
+
+## Lien avec une variable continue qui ne suit pas une loi normale
+
+Les modèles bayésiens décrits dans cet article sont bien adaptés pour traiter des variables continues non normales, comme l'IRC. Ils permettent d'incorporer des relations complexes entre variables explicatives tout en gérant des distributions asymétriques et des incertitudes inhérentes aux prédictions.
+
+# Bodell et al. (2022) - Bayesian Poll of Polls for Multi-Party Systems
+
+## Résumé de l'article
+
+L'article présente un modèle bayésien hiérarchique de "poll of polls" conçu pour des systèmes multipartites. Il utilise les sondages disponibles pour produire des estimations robustes de l'intention de vote pour chaque parti, tout en intégrant les incertitudes associées aux échantillons et aux biais potentiels des firmes de sondage. L'approche est appliquée aux élections suédoises de 2018, permettant de capter des dynamiques électorales complexes tout en corrigeant les écarts dus aux différences méthodologiques entre les sondages.
+
+## Forces et faiblesses des approches
+
+### Forces
+- **Gestion des incertitudes :** Le modèle intègre explicitement les incertitudes liées aux firmes de sondage et aux variations d'échantillonnage.
+- **Adapté aux systèmes multipartites :** Permet de modéliser des contextes où plusieurs partis partagent des intentions de vote importantes, avec des corrélations complexes entre eux.
+- **Flexibilité bayésienne :** Les distributions a priori permettent d'incorporer des connaissances externes ou des hypothèses contextuelles.
+
+### Faiblesses
+- **Dépendance à la qualité des sondages :** Les résultats sont fortement influencés par la qualité et la représentativité des données des firmes de sondage.
+- **Complexité computationnelle :** Les calculs bayésiens nécessitent des outils sophistiqués et des ressources importantes.
+
+## Cas d'application pertinent
+
+Le modèle est particulièrement utile pour les élections multipartites où de multiples firmes de sondage produisent des résultats potentiellement biaisés ou incohérents. Il peut être utilisé pour synthétiser ces sondages en une estimation globale robuste, comme démontré pour les élections suédoises de 2018.
+
+## Lien avec une variable continue qui ne suit pas une loi normale
+
+L'approche bayésienne hiérarchique est adaptée pour traiter des distributions non normales comme celles de l'IRC. En s'appuyant sur des distributions postérieures, elle peut fournir des prédictions robustes tout en capturant les dynamiques complexes entre les partis et les incertitudes liées aux biais des données.
+
+
+# Bullock (2009) Partisan Bias and the Bayesian Ideal in the Study of Public Opinion
+
+## Résumé de l'article
+L'article examine la manière dont les citoyens mettent à jour leurs croyances face à de nouvelles informations politiques, en utilisant le théorème de Bayes comme cadre normatif. Il remet en question l'idée largement répandue selon laquelle un désaccord persistant entre partisans serait toujours une preuve de biais partisan. En effet, l'article démontre que, même en l'absence de biais, les partisans peuvent maintenir des désaccords prolongés, voire se polariser. Cela s'explique par la force des croyances antérieures, la qualité et la quantité des nouvelles informations reçues, et la manière dont ces informations sont intégrées dans leurs croyances.
+
+## Forces et faiblesses des approches
+**Forces :**
+- Intègre le théorème de Bayes comme standard normatif pour l'actualisation des croyances.
+- Explique les désaccords persistants sans attribuer systématiquement ces divergences au biais partisan.
+- Offre une modélisation claire des mécanismes d'actualisation des croyances.
+
+**Faiblesses :**
+- Ne prend pas en compte les effets potentiels des contextes sociaux et culturels sur la perception des nouvelles informations.
+- La modélisation reste théorique, avec des applications empiriques limitées.
+
+## Cas d'application pertinent
+- Étude des comportements électoraux dans des environnements où les croyances partisanes jouent un rôle important.
+- Analyse des dynamiques de polarisation dans les systèmes multipartites, comme au Québec.
+- Application possible pour comprendre la réception de l'information politique dans un contexte d'incertitude.
+
+## Lien avec une variable continue qui ne suit pas une loi normale
+L'article illustre comment des croyances initiales fortes peuvent influencer la mise à jour des opinions, un phénomène qui pourrait affecter la distribution des scores d'IRC. Ces distributions, souvent non normales, pourraient refléter des dynamiques similaires d'actualisation biaisée ou polarisée.
+
+
+# Bunker (2020) - A Two-Stage Model to Forecast Elections in New Democracies
+
+## Résumé de l'article
+
+Cet article propose un modèle bayésien en deux étapes pour prévoir les résultats électoraux dans les démocraties émergentes. Le modèle combine des données de sondages pondérées avec des distributions bayésiennes pour produire des estimations robustes. Appliqué aux élections multipartites en Amérique latine, il démontre une capacité à gérer des contextes électoraux instables et à intégrer les incertitudes associées aux sondages.
+
+## Forces et faiblesses des approches
+
+### Forces
+- **Approche bayésienne avec MCMC :** Utilisation d'algorithmes de Monte Carlo par chaîne de Markov (MCMC) pour générer des distributions postérieures précises.
+- **Précision accrue par pondération :** Les sondages sont pondérés en fonction de leur précision historique et de leur proximité temporelle avec les élections.
+- **Efficacité dans des contextes instables :** Adapté aux systèmes multipartites et aux démocraties émergentes avec une volatilité électorale élevée.
+
+### Faiblesses
+- **Dépendance aux sondages :** La qualité des prévisions dépend directement du nombre et de la diversité des sondages disponibles.
+- **Variabilité dans les résultats :** Les erreurs sont plus fréquentes pour les candidats ayant des scores moyens (15-35 % des intentions de vote).
+- **Limites contextuelles :** Adapté à l'Amérique latine, mais nécessitant des validations supplémentaires dans d'autres contextes démocratiques.
+
+## Cas d'application pertinent
+
+Le modèle est particulièrement utile pour :
+- **Démocraties émergentes :** Conçu pour répondre aux besoins des régimes démocratiques instables.
+- **Élections multipartites :** Idéal pour des contextes où plusieurs candidats se disputent les votes.
+- **Prévisions à court terme :** Permet un suivi en temps réel des dynamiques électorales durant les campagnes.
+
+## Lien avec une variable continue qui ne suit pas une loi normale
+
+- **Distributions non-paramétriques :** Le modèle utilise des distributions a priori non informatives, adaptées aux variables continues asymétriques comme l'IRC.
+- **Mise à jour bayésienne :** Combine distributions de vraisemblance et a priori via la règle de Bayes, offrant une méthode robuste pour les distributions non normales.
+
+
+# Bunker (2022) - Forecasting Two-Horse Races in New Democracies: Accuracy, Precision, and Error
+
+## Résumé de l'article
+
+Cet article évalue l'efficacité des modèles bayésiens pour prévoir les résultats des courses électorales à deux candidats dans des démocraties émergentes. L'auteur compare plusieurs approches, notamment les méthodes bayésiennes, fréquentistes et basées sur des sondages simples, en termes de précision, de robustesse et d'incertitude des prévisions. En utilisant des données d'élections présidentielles en Amérique latine, l'étude met en évidence les forces et les limites des modèles bayésiens dans des contextes instables avec des données limitées.
+
+## Forces et faiblesses des approches
+
+### Forces
+- **Précision des modèles bayésiens :** Meilleure gestion de l'incertitude liée à des échantillons limités et à des contextes instables.
+- **Intégration flexible des données :** Les modèles bayésiens permettent d'incorporer des a priori et des distributions de vraisemblance adaptées.
+- **Comparaison des erreurs :** L'article fournit une analyse rigoureuse des types d'erreurs (biais, variabilité) pour chaque approche.
+
+### Faiblesses
+- **Dépendance aux données de sondage :** Les prévisions bayésiennes sont limitées par la qualité et la quantité des sondages disponibles.
+- **Complexité computationnelle :** Les modèles nécessitent des algorithmes avancés (ex. MCMC) et un temps de calcul significatif.
+
+## Cas d'application pertinent
+
+Le modèle est particulièrement utile dans les démocraties émergentes où les courses électorales à deux candidats dominent, comme les élections présidentielles en Amérique latine. Il est également adapté pour des contextes où les données sont limitées ou biaisées, nécessitant une gestion robuste des incertitudes.
+
+## Lien avec une variable continue qui ne suit pas une loi normale
+
+Les distributions non normales, comme celles de l'IRC, peuvent être modélisées efficacement avec une approche bayésienne. L'intégration des distributions postérieures et des a priori permet de capturer des incertitudes importantes et des asymétries dans les données, offrant une alternative robuste aux méthodes traditionnelles pour des variables continues complexes.
+
+

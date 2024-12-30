@@ -1,7 +1,6 @@
 # Packages ---------------------------------------------------------------
 library(dplyr)
 library(ggplot2)
-library(rstanarm)
 
 # Data -------------------------------------------------------------------
 data_list <- readRDS("local_lecture_dirigee/data/training_testing_data.rds")
@@ -47,6 +46,7 @@ for (i in 1:length(data_list)){
       formula = formula,
       data = df_train,
       prior = priors,
+      family = gaussian(),
       chains = 4,
       iter = 2000,
       seed = 123
